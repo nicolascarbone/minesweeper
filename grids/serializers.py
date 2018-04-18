@@ -7,7 +7,8 @@ from .models import Grid
 
 
 class GridSerializer(serializers.ModelSerializer):
+    elements = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Grid
-        # fields = ('first_name', 'last_name', 'fullname')
+        fields = ('rows', 'cells', 'mines', 'datetime', 'elements')

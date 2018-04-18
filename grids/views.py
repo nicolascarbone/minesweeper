@@ -22,19 +22,24 @@ class GridViewSet(viewsets.ModelViewSet):
         cells = int(request.data.get('cells', 5))
         mines = int(request.data.get('mines', 3))
 
-        grid = Grid(rows=rows, cells=cells, mines=mines)
+        # Create a new grid
+        grid = Grid(user=request.user, rows=rows, cells=cells, mines=mines)
         grid.save()
 
         # Initialize elements with a 0 in each position
         elements = [[0] * cells for i in range(rows)]
 
-        # set a few of random mines
+        # set up a few random bombs according to the specified mines
         mines_count = 0
-        
+
         while mines_count < mines:
 
+            # We just need to save bomb elements they are enough to
+            # recreate a grid having the number of cells and rows
             for mine in range(mines):
+
                 x, y = random.randrange(0, rows), random.randrange(0, cells)
+
                 if elements[x][y] == 0:
                     elements[x][y] = 1
                     mines_count = mines_count + 1
@@ -45,9 +50,15 @@ class GridViewSet(viewsets.ModelViewSet):
 
         # Create elements
         elements_to_save = []
-        for index, row in enumerate(elements):
-            for element in row:
-                elements_to_save.append(Element(grid=grid, is_bomb=element))
+        for row, cells in enumerate(elements):
+            for cell, is_bomb in enumerate(cells):
+                elements_to_save.append(Element(
+                    grid=grid,
+                    is_bomb=is_bomb,
+                    row=row,
+                    cell=cell))
 
-        Element.objects.bulk_create(elements_to_save)
-        return Response()
+        saved = Element.objects.bulk_create(elements_to_save)
+        
+        serializer = self.get_serializer(grid)
+        return Response(serializer.data)

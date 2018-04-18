@@ -16,10 +16,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from api.viewsets import TokenViewSet
+from rest_framework import routers
+
+from api.views import TokenViewSet
+from grids.views import GridViewSet
+from elements.views import ElementViewSet
+
+router = routers.DefaultRouter()
+router.register(r'grids', GridViewSet)
+router.register(r'elements', ElementViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('api/', include(router.urls)),
+    path('api/', include(router.urls)),
     path('api/token/', TokenViewSet.as_view()),
 ]
