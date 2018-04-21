@@ -10,3 +10,4 @@ class Grid(models.Model):
     cells = models.PositiveSmallIntegerField(default=5)
     mines = models.PositiveSmallIntegerField(default=3)
     datetime = models.DateTimeField(default=datetime.now)
+    finished = models.BooleanField(default=False)

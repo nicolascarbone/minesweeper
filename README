@@ -1,0 +1,20 @@
+crear virtualenv
+pip install
+file structure best pratices ?
+
+Backend
+    Ability to select the game parameters: number of rows, columns, and mines
+    Design and implement a documented RESTful API for the game (think of a mobile app for your API)
+    Ability to start a new game and preserve/resume the old ones
+    Persistence
+    Ability to 'flag' a cell with a question mark or red flag
+    Ability to support multiple users/accounts
+
+
+frontend
+    Implement an API client library for the API designed above. Ideally, in a different language,
+        of your preference, to the one used for the API
+    Detect when game is over (from frontend, using is_bomb element field)
+    Time tracking (from frontend, using datetime grid field)
+
+    When a cell with no adjacent mines is revealed, all adjacent squares will be revealed (and repeat)

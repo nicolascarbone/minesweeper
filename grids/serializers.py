@@ -4,11 +4,12 @@ from django.contrib.auth import authenticate
 from rest_framework import serializers, exceptions
 
 from .models import Grid
+from elements.serializers import ElementSerializer
 
 
 class GridSerializer(serializers.ModelSerializer):
-    elements = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    # elements = ElementSerializer(many=True, read_only=True)
 
     class Meta:
         model = Grid
-        fields = ('rows', 'cells', 'mines', 'datetime', 'elements')
+        fields = ('pk', 'rows', 'cells', 'mines', 'datetime')
