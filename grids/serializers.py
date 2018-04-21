@@ -8,7 +8,6 @@ from elements.serializers import ElementSerializer
 
 
 class GridSerializer(serializers.ModelSerializer):
-    # elements = ElementSerializer(many=True, read_only=True)
 
     class Meta:
         model = Grid

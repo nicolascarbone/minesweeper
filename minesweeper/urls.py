@@ -23,27 +23,16 @@ from grids.views import GridViewSet
 from elements.views import ElementViewSet
 
 router = routers.DefaultRouter()
-# router.register(r'user', UserViewSet)
-# router.register(r'user', UserViewSet, base_name='user')
+router.register(r'grids', GridViewSet)
 
 urlpatterns = [
     path('', include('rest_framework.urls', namespace='rest_framework')),
     path('admin/', admin.site.urls),
-    path('grids/', GridViewSet.as_view({
-        'get': 'get_older_games',
-        'post': 'create'
-        })
-    ),
-    path('grids/<int:pk>', GridViewSet.as_view({
-        'get': 'get',
-        'delete': 'delete'
-        })
-    ),
     path(
         'grids/<int:grid>/squares/<int:row>/<int:cell>/explore',
         GridViewSet.as_view({'post': 'explore'})
     ),
-    path('api/', include(router.urls)),
+    path('', include(router.urls)),
     path('api/token/', TokenViewSet.as_view()),
     path('api/user/', UserViewSet.as_view())
 ]

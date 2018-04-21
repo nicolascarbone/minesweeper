@@ -18,15 +18,10 @@ class GridViewSet(viewsets.ModelViewSet):
     """
     Returns a list of all authors.
     """
-    queryset = Grid.objects.all()
+    queryset = Grid.objects.all().order_by('-datetime')
     serializer_class = GridSerializer
 
-    def get(self, request, pk=None):
-        grid = get_object_or_404(Grid, pk=pk)
-        serializer = self.get_serializer(grid)
-        return Response(serializer.data)
-
-    def get_older_games(self, request):
+    def get(self, request):
         qs = self.get_queryset()
         older = qs.filter(user=request.user)
         serializer = self.get_serializer(older, many=True)
@@ -37,11 +32,6 @@ class GridViewSet(viewsets.ModelViewSet):
         element = grid.elements.get(row=row, cell=cell)
         serializer = ElementSerializer(element)
         return Response(serializer.data)
-
-    def delete(self, request, pk=None):
-        grid = get_object_or_404(Grid, pk=pk)
-        grid.delete()
-        return Response()
 
     def create(self, request):
 
