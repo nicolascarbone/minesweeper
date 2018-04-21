@@ -16,12 +16,12 @@ from elements.models import Element
 
 class GridViewSet(viewsets.ModelViewSet):
     """
-    Returns a list of all authors.
+    Returns a list of all previous games.
     """
     queryset = Grid.objects.all().order_by('-datetime')
     serializer_class = GridSerializer
 
-    def get(self, request):
+    def list(self, request):
         qs = self.get_queryset()
         older = qs.filter(user=request.user)
         serializer = self.get_serializer(older, many=True)

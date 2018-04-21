@@ -8,6 +8,7 @@ from elements.serializers import ElementSerializer
 
 
 class GridSerializer(serializers.ModelSerializer):
+    datetime = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
 
     class Meta:
         model = Grid
